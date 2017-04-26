@@ -32,3 +32,5 @@ I added one supervisor process to the frequency server:
 
 ### Potential Problems:  
 If the server is killed, a client without a frequency will remain alive, and it could send an allocate request to the server while the server is down causing the client to crash.
+
+I did not understand the "discussion" about the state of the server.  If the server is killed directly it can't execute any code to preserve state or otherwise.  If the server is killed indirectly, it deallocates any frequency
