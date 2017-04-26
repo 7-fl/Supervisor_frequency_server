@@ -5,11 +5,11 @@ I added one supervisor process to the frequency server:
 <->  link
 
 
-(supervisor) trap server
+(supervisor) trap server 'EXIT'
      ^     
      |
      V     
-  (server)   trap supervisor, client
+  (server)   trap supervisor, client 'EXIT'
    ^    ^  
    |    |
    V    | 
