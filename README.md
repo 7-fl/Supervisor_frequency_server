@@ -21,7 +21,7 @@ I added one supervisor process to the frequency server:
 ### Observer results:
 
 * **Kill supervisor**:  Server receives 'EXIT' message from supervisor, and the server executes `exit(shutdown)`, which kills itself
-                  as well as the clients link()'ed to the server. 
+                  as well as the clients `link()`ed to the server. 
                  
 * **Kill server**:      The clients that are linked to the server are killed.  The supervisor receives an 'EXIT' message 
                   from the server and in response the supervisor starts a new server and registers it under the same name
