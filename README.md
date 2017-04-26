@@ -19,7 +19,7 @@ I added one supervisor process to the frequency server:
 ```
 
 **Observer results**:
-
+```erlang
 Kill supervisor:  Server receives 'EXIT' message from supervisor, and the server executes `exit(shutdown)`, which kills itself
                   as well as the clients link()'ed to the server. 
                  
@@ -28,7 +28,7 @@ Kill server:      The clients that are linked to the server are killed.  The sup
                   as the old server. 
 
 Kill client:      The server receives an 'EXIT' message from the client and deallocates any frequency held by that client.
-
+```
 
 **Potential Problems**:  
 If the server is killed, a client without a frequency will remain alive, and it could send an allocate request to the server while the server is down causing the client to crash.
