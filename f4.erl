@@ -68,13 +68,13 @@ handle_allocate_response({error, no_frequency}, Id, Sleep) ->
 %=========== SERVER ===========
 
 start_server(Supervisor) ->
-    Server = spawn_link(f4, init, [Supervisor]),
+    Server = spawn_link(f4, server_init, [Supervisor]),
     register(f4, Server),
     Server.
 
 %----------
 
-init(Supervisor) ->
+server_init(Supervisor) ->
   process_flag(trap_exit, true),    
   Frequencies = {get_frequencies(), []},
   loop(Frequencies, Supervisor).
