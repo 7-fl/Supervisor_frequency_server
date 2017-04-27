@@ -20,14 +20,12 @@ I added one supervisor process to the frequency server:
 
 ### Observer results:
 
-* **Kill supervisor**:  Server receives 'EXIT' message from supervisor, and the server executes `exit(shutdown)`, which kills itself
-                  as well as the clients `link()`ed to the server. 
+* **Kill supervisor**:  Because the server is linked to the supervisor and is trapping exits, the server receives an 'EXIT' message from supervisor.  In response to the 'EXIT' message, the server executes `exit(shutdown)`, which kills itself and because the clients are linked to the server, the clients die as well. 
                  
 * **Kill server**:      The clients that are linked to the server are killed.  The supervisor receives an 'EXIT' message 
-                  from the server and in response the supervisor starts a new server and registers it under the same name
-                  as the old server. 
+from the server, and in response to the 'EXIT' message the supervisor starts a new server and registers it under the same name as the old server. 
 
-* **Kill client**:      The server receives an 'EXIT' message from the client and deallocates any frequency held by that client.
+* **Kill client**:      Becasue the client is linked to the server and the server is trapping exits, the server receives an 'EXIT' message from the client and deallocates any frequency held by that client.
 
 
 ### Potential Problems:  
