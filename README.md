@@ -28,6 +28,6 @@ I added one supervisor process to the frequency server:
 
 
 ### Potential Problems:  
-If the server is killed, a client without a frequency will remain alive, and it could send an allocate request to the server while the server is down causing the client to crash.
+If the server is killed, a client without a frequency will remain alive, and the client could send an allocate request to the server while the server is down causing the client to crash.
 
-I did not understand the "discussion" about the state of the server.  As far as I can tell, the state of the server when it dies is exactly the same as the state of the server when it was initially started, so I didn't take any special steps when restarting the server.
+I did not understand the "discussion" about the state of the server.  As far as I can tell,  when the server dies the state of the server is exactly the same as the state of the server when it was initially started, so I didn't take any special steps when restarting the server.
