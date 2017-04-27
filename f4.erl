@@ -50,7 +50,7 @@ handle_allocate_response({ok, Freq}, Id, Sleep) ->
               [Id, self(), Freq]),
 
     timer:sleep(Sleep),
-    deallocate(Freq),
+    deallocate(Freq),  %Always succeeds.
 
     io:format("client~w (~w) deallocated frequency: ~w~n",
               [Id, self(), Freq]),
