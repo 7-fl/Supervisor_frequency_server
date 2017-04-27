@@ -12,38 +12,14 @@
 -export([client/2, handle_allocate_response/3]).
 -export([supervisor_init/0, test/0]).
 
-%% These are the start functions used to create and
-%% initialize the server.
-
-
-%OUTCOME:
-%1) If server is killed, the supervisor succesfully detects that and:
-%      a) kills the clients
-%      b) restarts server
-%
-%PROBLEMS:
-%1) If I kill the supervisor, the server doesn't die (as required by a supervisor
-%   described in the lectures) because the server is trapping exits. 
-%   So I added an {'EXIT', Pid, killed} clause to the
-%   server loop to catch a 'killed' signal and end the server loop.  But the supervisor
-%   is coded to kill the Clients, and because it can't execute anything after a
-%   kill signal, the Clients end up dying when they try to send a request to the
-%   non existent server. 
-
-% One solution would be to add some code to the server to
-% kill the clients.  It sort of makes sense to make the server keep track
-% of the clients and kill them when it dies.  But then you will run into the same
-% problem if the server is killed first: it can't kill the clients because a kill
-% signal does not allow any code to execute. As a result, you would have to put 
-% the client killing code in both the server and the supervisor.
-
 test() ->
     spawn(f4, supervisor_init, []),
     timer:sleep(1000),  %Make sure server has started before allowing clients to send requests.
     _Client1 = spawn(f4, client, [1, 5000]),
     _Client2 = spawn(f4, client, [2, 3000]),
     testing.    
-%----------
+
+%========== SUPERVISOR =========
 
 supervisor_init() ->
     io:format("supervisor_init: (~w)~n", [self()]),
@@ -65,12 +41,10 @@ supervisor(Server) ->
             supervisor(Server)
     end.
 
-%---------
+%========== CLIENT ============
 
 client(Id, Sleep) ->
     handle_allocate_response(allocate(), Id, Sleep).
-
-%----------
 
 handle_allocate_response({ok, Freq}, Id, Sleep) ->
     io:format("client~w (~w) got frequency: ~w~n", 
@@ -91,7 +65,7 @@ handle_allocate_response({error, no_frequency}, Id, Sleep) ->
     client(Id, Sleep).
 
 
-%===========Server code===========
+%=========== SERVER ===========
 
 start_server(Supervisor) ->
     Server = spawn_link(f4, init, [Supervisor]),
@@ -125,11 +99,13 @@ loop(Frequencies, Supervisor) ->
 
     {'EXIT', Supervisor, _Reason} ->  %'EXIT' from supervisor
       io:format("server (~w) exiting: got exit signal from: ~w~n", [self(), Supervisor]),
-      exit(shutdown);  %Kill clients that have been allocated frequencies.
+      exit(shutdown);  %Kill server and clients that have been allocated frequencies.
     {'EXIT', Pid, _Reason} ->  %'EXIT' from client              
       NewFrequencies = exited(Frequencies, Pid), 
       loop(NewFrequencies, Supervisor)
   end.
+
+%% ========= NO CHANGES BELOW HERE =============
 
 %% Functional interface
 
