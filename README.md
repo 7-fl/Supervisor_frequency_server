@@ -31,4 +31,4 @@ from the server, and in response to the 'EXIT' message the supervisor starts a n
 ### Potential Problems:  
 If the server is killed, a client without a frequency will remain alive, and it could send an allocate request to the server while the server is down causing the client to crash.
 
-I did not understand the "discussion" about the state of the server.  If the server is killed directly it can't execute any code to preserve state or otherwise.  If the server is killed indirectly, it deallocates any frequency
+I did not understand the "discussion" about the state of the server.  As far as I can tell, the state of the server when it dies is exactly the same as the state of the server when it was initially started, so I didn't take any special steps when restarting the server.
