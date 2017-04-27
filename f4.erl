@@ -26,7 +26,6 @@ supervisor_init() ->
     Server = start_server(self() ),
     io:format("supervisor_init: initial server started (~w)~n", [Server]),
    
-    register(supervisor, self()),
     process_flag(trap_exit, true),
     supervisor(Server).
 
