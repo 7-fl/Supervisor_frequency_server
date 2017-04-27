@@ -15,8 +15,8 @@
 test() ->
     spawn(f4, supervisor_init, []),
     timer:sleep(1000),  %Make sure server has started before allowing clients to send requests.
-    _Client1 = spawn(f4, client, [1, 5000]),
-    _Client2 = spawn(f4, client, [2, 3000]),
+    _Client1 = spawn(f4, client, [1, 5000]),  %Arguments: [Id, Sleep]
+    _Client2 = spawn(f4, client, [2, 3000]),  %Arguments: [Id, Sleep]
     testing.    
 
 %========== SUPERVISOR =========
