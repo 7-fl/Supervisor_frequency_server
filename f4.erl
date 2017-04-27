@@ -61,7 +61,7 @@ handle_allocate_response({error, no_frequency}, Id, Sleep) ->
     io:format("client~w (~w): no frequencies available~n",
               [Id, self()]),
 
-    timer:sleep(500),
+    timer:sleep(500),  %Wait for a short time before trying again.
     client(Id, Sleep).
 
 
